@@ -17,7 +17,7 @@
 /* Author: Steven Macenski */
 
 // Header
-#include "rviz_plugin/slam_toolbox_rviz_plugin.h"
+#include "rviz_plugin/slam_toolbox_rviz_plugin.hpp"
 // QT
 #include <QPushButton>
 #include <QCheckBox>

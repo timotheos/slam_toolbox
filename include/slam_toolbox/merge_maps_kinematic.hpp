@@ -29,8 +29,8 @@
 #include <fstream>
 
 #include "rclcpp/rclcpp.hpp"
-// #include "interactive_markers/interactive_marker_server.h"
-// #include "interactive_markers/menu_handler.h"
+#include "interactive_markers/interactive_marker_server.hpp"
+#include "interactive_markers/menu_handler.hpp"
 #include "tf2_ros/transform_broadcaster.h"
 #include "tf2_ros/transform_listener.h"
 #include "tf2_ros/message_filter.h"
@@ -95,7 +95,7 @@ private:
   std::unique_ptr<tf2_ros::TransformBroadcaster> tfB_;
 
   // visualization
-  // std::unique_ptr<interactive_markers::InteractiveMarkerServer> interactive_server_;
+  std::unique_ptr<interactive_markers::InteractiveMarkerServer> interactive_server_;
 
   // state
   std::map<int, Eigen::Vector3d> submap_locations_;

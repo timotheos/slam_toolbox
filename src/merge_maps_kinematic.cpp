@@ -51,9 +51,14 @@ void MergeMapsKinematic::configure()
 
   tfB_ = std::make_unique<tf2_ros::TransformBroadcaster>(shared_from_this());
 
-  // interactive_server_ =
-  //   std::make_unique<interactive_markers::InteractiveMarkerServer>(
-  //   "merge_maps_tool","",true);
+  interactive_server_ =
+    std::make_unique<interactive_markers::InteractiveMarkerServer>(
+    "merge_maps_tool",
+    this->get_node_base_interface(),
+    this->get_node_clock_interface(),
+    this->get_node_logging_interface(),
+    this->get_node_topics_interface(),
+    this->get_node_services_interface());
 }
 
 /*****************************************************************************/
@@ -147,11 +152,14 @@ bool MergeMapsKinematic::addSubmapCallback(
   m.id = num_submaps_;
 
   // TODO(stevemacenski): waiting on interactive markers to be ported
-  // visualization_msgs::InteractiveMarker int_marker =
-  //   vis_utils::toInteractiveMarker(m, 2.4);
-  // interactive_server_->insert(int_marker,
-  //   boost::bind(&MergeMapsKinematic::processInteractiveFeedback, this, _1));
-  // interactive_server_->applyChanges();
+  visualization_msgs::msg::InteractiveMarker int_marker =
+    vis_utils::toInteractiveMarker(m, shared_from_this(), 2.4);
+  interactive_server_->insert(int_marker);
+    // NOTE(tim): I'm getting an compilation error here; I think there
+    // are gaps in my understanding.
+    //
+    // boost::bind(&MergeMapsKinematic::processInteractiveFeedback, this, _1));
+  interactive_server_->applyChanges();
 
   RCLCPP_INFO(get_logger(),
     "Map %s was loaded into topic %s!", req->filename.c_str(),
